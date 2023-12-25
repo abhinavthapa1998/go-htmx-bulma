@@ -12,7 +12,8 @@ type Film struct {
 }
 
 func main(){
-  h1 := func (w http.ResponseWriter, r *http.Request){
+  
+  getHome := func (w http.ResponseWriter, r *http.Request){
     tmpl := template.Must(template.ParseFiles("index.html"))
     films := map[string][]Film{
       "Films":{
@@ -23,7 +24,8 @@ func main(){
     }
     tmpl.Execute(w, films)
   }
-  h2 := func (w http.ResponseWriter, r *http.Request){
+
+  createFilm := func (w http.ResponseWriter, r *http.Request){
     title := r.PostFormValue("title")
     director := r.PostFormValue("director")  
     tmpl := template.Must(template.ParseFiles("index.html"))
@@ -31,7 +33,7 @@ func main(){
   }
 
   
-  http.HandleFunc("/", h1)
-  http.HandleFunc("/add-film/",h2)
-  log.Fatal(http.ListenAndServe(":8000",nil))
+  http.HandleFunc("/", getHome)
+  http.HandleFunc("/add-film/", createFilm)
+  log.Fatal(http.ListenAndServe(":8080",nil))
 }
