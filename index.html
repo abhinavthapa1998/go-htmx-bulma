@@ -1,9 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
   </head>
-  <body></body>
+  <body>
+    <section class="section">
+      <div class="container">
+        <h1 class="title">Hello!</h1>
+        <ul class="list" id="film-list">
+          {{ range .Films }} {{block "film-list-element" .}}
+          <li>{{.Title}} - {{.Director}}</li>
+          {{end}} {{ end }}
+        </ul>
+      </div>
+      <form
+        hx-post="/add-film/"
+        hx-target="#film-list"
+        hx-swap="beforeend"
+        class="container"
+        hx-indicator="#spinner"
+      >
+        <div class="field">
+          <label class="label" for="film-title">Title</label>
+          <div class="control">
+            <input type="text" name="title" class="input is-primary" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="film-director">Director</label>
+          <div class="control">
+            <input type="text" name="director" class="input is-primary" />
+          </div>
+        </div>
+        <button type="submit" class="primary">Submit</button>
+      </form>
+    </section>
+  </body>
 </html>
